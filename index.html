@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canella Protocol | Seamless Crypto Mixer</title>
+    <style>
+        /* Estilos generales y Modo Oscuro */
+        :root {
+            --bg-color: #0d0e12;
+            --card-bg: #1a1c23;
+            --input-bg: #262932;
+            --primary-color: #d97706; /* Color canela/naranja */
+            --primary-hover: #b45309;
+            --text-main: #ffffff;
+            --text-muted: #8b8f9e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Navegación */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 1px solid #2a2d36;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            letter-spacing: 1px;
+        }
+
+        .connect-btn {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--primary-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .connect-btn:hover {
+            background-color: var(--primary-color);
+        }
+
+        /* Contenedor Principal */
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Tarjeta de Intercambio (Mixer) */
+        .swap-card {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 480px;
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid #2a2d36;
+        }
+
+        .swap-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .swap-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .swap-header p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Campos de Entrada */
+        .input-section {
+            background-color: var(--input-bg);
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .input-label {
+            display: block;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        .input-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .input-row input {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.5rem;
+            font-weight: bold;
+            outline: none;
+            width: 60%;
+        }
+
+        .input-row input::placeholder {
+            color: #4a4d5a;
+        }
+
+        .crypto-select {
+            background-color: #333742;
+            color: var(--text-main);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 1rem;
+            cursor: pointer;
+            outline: none;
+        }
+
+        /* Botón de Intercambio */
+        .exchange-btn {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .exchange-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Dirección de destino */
+        .address-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+            margin-top: 5px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Canella Protocol</div>
+        <button class="connect-btn" onclick="alert('Funcionalidad de billetera próximamente.')">Connect Wallet</button>
+    </header>
+
+    <main>
+        <div class="swap-card">
+            <div class="swap-header">
+                <h1>Exchange & Mix</h1>
+                <p>Fast, secure, and anonymous routing.</p>
+            </div>
+
+            <div class="input-section">
+                <span class="input-label">You Send</span>
+                <div class="input-row">
+                    <input type="number" id="sendAmount" placeholder="0.1" oninput="calculateReceive()">
+                    <select class="crypto-select" id="sendCoin">
+                        <option value="BTC">BTC</option>
+                        <option value="ETH">ETH</option>
+                        <option value="USDT">USDT</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-section">
+                <span class="input-label">You Receive (Est.)</span>
+                <div class="input-row">
+                    <input type="number" id="receiveAmount" placeholder="0.00" readonly>
+                    <select class="crypto-select" id="receiveCoin">
+                        <option value="XMR">XMR</option>
+                        <option value="ETH">ETH</option>
+                        <option value="BTC">BTC</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-section">
+                <span class="input-label">Destination Address</span>
+                <input type="text" class="address-input" placeholder="Enter your receiving wallet address...">
+            </div>
+
+            <button class="exchange-btn" onclick="startExchange()">Exchange Now</button>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2026 Canella Protocol. All rights reserved. V 1.0 (Testnet)
+    </footer>
+
+    <script>
+        // Lógica básica para simular un cálculo de intercambio
+        function calculateReceive() {
+            const sendAmount = document.getElementById('sendAmount').value;
+            const receiveInput = document.getElementById('receiveAmount');
+            
+            // Tasa de cambio simulada (falsa, solo para el frontend)
+            const mockRate = 145.5; 
+            
+            if(sendAmount > 0) {
+                // Simula el cobro de un pequeño "fee" de red (ej. 1%)
+                const amountAfterFee = sendAmount * 0.99;
+                receiveInput.value = (amountAfterFee * mockRate).toFixed(4);
+            } else {
+                receiveInput.value = "";
+            }
+        }
+
+        // Función simulada al hacer clic en Exchange
+        function startExchange() {
+            const send = document.getElementById('sendAmount').value;
+            if(!send || send <= 0) {
+                alert("Please enter an amount to send.");
+                return;
+            }
+            alert("This is a frontend demo for Canella Protocol. Smart contracts are not connected yet!");
+        }
+    </script>
+
+</body>
+</html>
